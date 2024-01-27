@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { Handle, Position } from "reactflow";
 import { IoIosAddCircleOutline,IoIosHeartEmpty } from "react-icons/io";
+import { TreeGlobalContext } from "../context/TreeContext";
 
 const handleStyle = { left: 10 };
 
@@ -8,6 +9,12 @@ function CustomNode({ data, isConnectable }) {
   const onChange = useCallback((evt) => {
     console.log(evt.target.value);
   }, []);
+
+  const IncreaseLike = () => {
+    
+  }
+
+  const {nodes,setNodes,onNodesChange,edges,setEdges,onEdgesChange} = TreeGlobalContext
 
   return (
     <div className="node flex flex-col relative min-w-[250px] h-[250px] max-h-[650px] rounded-xl nodrag border border-[#3a3a3a] shadow-md">
@@ -33,7 +40,7 @@ function CustomNode({ data, isConnectable }) {
       <div className="bg-[#020308] flex justify-end items-center gap-2 rounded-lg py-2">
         <div>
           <button className="flex text-white justify-center items-center text-[13px] gap-1">
-            <IoIosHeartEmpty color="white"/> <span className=" text-[10px]">{data?.likes}</span>
+            <IoIosHeartEmpty onClick={()=>data.IncreaseLike(data.id)} color="white"/> <span className=" text-[10px]">{data?.likes}</span>
           </button>
         </div>
         <div className="mr-2">

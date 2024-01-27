@@ -5,14 +5,17 @@ import "./index.css";
 import Navbar from "./components/Navbar.jsx";
 import { AuthContextProvider } from "./context/AuthContext.jsx";
 import { BrowserRouter } from "react-router-dom";
+import { TreeContextWrapper, TreeGlobalContext } from "./context/TreeContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
-      <AuthContextProvider>
-        <Navbar />
-        <App />
-      </AuthContextProvider>
+      {/* <AuthContextProvider> */}
+        <TreeContextWrapper>
+          <Navbar />
+          <App />
+        </TreeContextWrapper>
+      {/* </AuthContextProvider> */}
     </BrowserRouter>
   </React.StrictMode>
 );
