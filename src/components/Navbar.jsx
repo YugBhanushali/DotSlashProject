@@ -8,8 +8,7 @@ const Navbar = () => {
 
   return (
     <div className="">
-      <button onClick={googleSignIn}>Sign In with Google</button>
-      {user?<Home/>:""}
+      
     </div>
   );
 };
