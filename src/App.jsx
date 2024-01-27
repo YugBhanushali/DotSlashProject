@@ -6,12 +6,12 @@ import Profile from "./Pages/Profile";
 function App() {
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/protected" element={<Protected />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="*" element={<Home />} />
-      </Routes>
+      {/* <Routes> */}
+        {/* <Route path="/" element={<Home />} /> */}
+        {/* <Route path="/protected" element={<Protected />} /> */}
+        {/* <Route path="/profile" element={<Profile />} /> */}
+        {/* <Route path="*" element={<Home />} /> */}
+      {/* </Routes> */}
     </>
   );
 }
