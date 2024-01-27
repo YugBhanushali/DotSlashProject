@@ -17,24 +17,60 @@ import ReactFlow, {
     Panel,
     useReactFlow,
   } from 'reactflow'; 
-   
-const initialNodes = [
-    { id: '1', position: { x: 0, y: 0 }, data: { label: '1',value:'Hello this is the root node'},sourcePosition:"left",type:'custom' },
-    { id: '2', position: { x: 0, y: 0 }, data: { label: '2' },targetPosition:"left",type:'custom' },
-    { id: '3', position: { x: 0, y: 0 }, data: { label: '3' },targetPosition:"left",type:'custom' },
-    { id: '4', position: { x: 0, y: 0 }, data: { label: '4' },targetPosition:"left",type:'custom' },
-    { id: '5', position: { x: 0, y: 0 }, data: { label: '5' },targetPosition:"left",type:'custom' },
-    { id: '6', position: { x: 0, y: 0 }, data: { label: '6' },targetPosition:"left",type:'custom' }
-  ];
+import { nanoid } from 'nanoid';
+  
+  const tree = {
+    title: "",
+    nodes: [
+      {
+        id: "1",
+        position: { x: 0, y: 0 },
+        data: { value: "Root", title: "dljsf",img:"https://github.com/shadcn.png", likes: 0, content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. .", time: "" },
+        targetPosition: "right",
+        type: "custom",
+      },
+      {
+        id: "2",
+        position: { x: 0, y: 0 },
+        data: { value: "Root", title: "dljsf",img:"https://github.com/shadcn.png", likes: 0, content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", time: "" },
+        targetPosition: "right",
+        type: "custom",
+      },
+      {
+        id: "3",
+        position: { x: 0, y: 0 },
+        data: { value: "Root", title: "dljsf",img:"https://github.com/shadcn.png", likes: 0, content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", time: "" },
+        targetPosition: "right",
+        type: "custom",
+      },
+      {
+        id: "4",
+        position: { x: 0, y: 0 },
+        data: { value: "Root", title: "dljsf",img:"https://github.com/shadcn.png", likes: 0, content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", time: "" },
+        targetPosition: "right",
+        type: "custom",
+      },
+      {
+        id: "5",
+        position: { x: 0, y: 0 },
+        data: { value: "Root", title: "dljsf", likes: 0, content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", time: "" },
+        targetPosition: "right",
+        type: "custom",
+      },
+    ],
+    edges: [
+      { id: nanoid(5), source: "1", target: "2" },
+      { id: nanoid(5), source: "1", target: "3" },
+      { id: nanoid(5), source: "2", target: "4" },
+      { id: nanoid(5), source: "2", target: "5" },
+    ],
+  };
+
+const initialNodes = tree.nodes
 
 const nodeTypes = {custom:CNode}  
   
-const initialEdges = [{ id: 'e1-2', source: '1', target: '2' },
-{ id: 'e1-3', source: '1', target: '3' },
-{ id: 'e1-4', source: '1', target: '4' },
-{ id: 'e2-5', source: '2', target: '5' },
-{ id: 'e2-6', source: '2', target: '6' }
-];
+const initialEdges = tree.edges;
 
 const elk = new ELK(); 
 
@@ -103,7 +139,7 @@ const useLayoutedElements = () => {
             horizontal
           </button>
         </Panel>
-        <Background variant="dots" color="#fff" gap={12} size={1} className="bg-black" />
+        <Background variant="dots" color="#fff" gap={12} size={1} className="bg-[#282523]" />
       </ReactFlow>
     );
   };
