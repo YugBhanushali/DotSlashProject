@@ -32,13 +32,62 @@ const elk = new ELK();
 //     setNodes(())
 //   }
 
+  
+
+export const useLayoutedElements = () => {
+  const { getNodes, setNodes, getEdges, fitView } = useReactFlow();
+  const defaultOptions = {
+    "elk.algorithm": "layered",
+    "elk.direction": "RIGHT",
+    "elk.layered.spacing.nodeNodeBetweenLayers": 100,
+    "elk.spacing.nodeNode": 80,
+  };
+
+  const getLayoutedElements = useCallback((options) => {
+    const layoutOptions = { ...defaultOptions, ...options };
+    const graph = {
+      id: "root",
+      layoutOptions: layoutOptions,
+      children: getNodes(),
+      edges: getEdges(),
+    };
+
+    elk.layout(graph).then(({ children }) => {
+      // By mutating the children in-place we saves ourselves from creating a
+      // needless copy of the nodes array.
+      children.forEach((node) => {
+        node.position = { x: node.x, y: node.y };
+      });
+
+      setNodes(children);
+      window.requestAnimationFrame(() => {
+        fitView();
+      });
+    });
+  }, []);
+
+  return { getLayoutedElements };
+};
+
+
+
+const LayoutFlow = () => {
+//   const [nodes, setNodes, onNodesChange] = useNodesState(tree.nodes);
+//   const [edges, setEdges , onEdgesChange] = useEdgesState(tree.edges);
+  const { getLayoutedElements } = useLayoutedElements();
+
+  const {nodes,setNodes,onNodesChange,edges,setEdges,onEdgesChange} = TreeGlobalContext()
+
+
+  
+
 const tree = {
     title: "",
     nodes: [
       {
         id: "1",
         position: { x: 0, y: 0 },
-        data: {
+        data: {  
           value: "Root",
           title: "dljsf",
           img: "https://github.com/shadcn.png",
@@ -99,9 +148,8 @@ const tree = {
         id: "5",
         position: { x: 0, y: 0 },
         data: {
-            id:"5",
           value: "Root",
-          title: "dljsf",
+          title: "5",
           img: "https://github.com/shadcn.png",
           likes: 0,
           content:
@@ -119,55 +167,6 @@ const tree = {
       { id: nanoid(5), source: "2", target: "5" },
     ],
   };
-
-//   const initialNodes = tree.nodes
-//   const initialEdges = tree.edges 
-
-  
-
-const useLayoutedElements = () => {
-  const { getNodes, setNodes, getEdges, fitView } = useReactFlow();
-  const defaultOptions = {
-    "elk.algorithm": "layered",
-    "elk.direction": "RIGHT",
-    "elk.layered.spacing.nodeNodeBetweenLayers": 100,
-    "elk.spacing.nodeNode": 80,
-  };
-
-  const getLayoutedElements = useCallback((options) => {
-    const layoutOptions = { ...defaultOptions, ...options };
-    const graph = {
-      id: "root",
-      layoutOptions: layoutOptions,
-      children: getNodes(),
-      edges: getEdges(),
-    };
-
-    elk.layout(graph).then(({ children }) => {
-      // By mutating the children in-place we saves ourselves from creating a
-      // needless copy of the nodes array.
-      children.forEach((node) => {
-        node.position = { x: node.x, y: node.y };
-      });
-
-      setNodes(children);
-      window.requestAnimationFrame(() => {
-        fitView();
-      });
-    });
-  }, []);
-
-  return { getLayoutedElements };
-};
-
-
-
-const LayoutFlow = () => {
-//   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-//   const [edges, setEdges , onEdgesChange] = useEdgesState(initialEdges);
-  const { getLayoutedElements } = useLayoutedElements();
-
-  const {nodes,setNodes,onNodesChange,edges,setEdges,onEdgesChange,tempEdges, setTempEdges,tempNode, setTempNode} = TreeGlobalContext
   
 
 
@@ -176,14 +175,12 @@ const LayoutFlow = () => {
       "elk.algorithm": "layered",
       "elk.direction": "RIGHT",
     });
-    setTempNode(tree.nodes)
-    setTempEdges(tree.edges)
   }, []);
 
   return (
     <ReactFlow
-      nodes={tempNode}
-      edges={tempEdges}
+      nodes={nodes}
+      edges={edges}
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
       nodeTypes={nodeTypes}
@@ -228,8 +225,7 @@ const LayoutFlow = () => {
 };
 
 export default function Tree() {
-    const {nodes,setNodes,onNodesChange,edges,setEdges,onEdgesChange} = TreeGlobalContext
-    console.log(nodes);
+    const {nodes,setNodes,onNodesChange,edges,setEdges,onEdgesChange} = TreeGlobalContext()
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
