@@ -12,42 +12,22 @@ import { db } from "../firebase"; // Import your Firebase configuration
 import TreeChart from "./Tree";
 import Tree from "./Tree";
 import { TreeGlobalContext } from "../context/TreeContext";
+import { useParams } from "react-router-dom";
 
 const TreePage = () => {
-  // const messages = [    mdmlk f,v
-  //   {
-  //     id: 1,
-  //     message: "example message 1",
-  //     likes: 10
-  //   },
-  //   {
-  //     id: 2,
-  //     message: "example message 2",
-  //     likes: 10
-  //   },
-  //   {
-  //     id: 3,
-  //     message: "example message 3",
-  //     likes: 10
-  //   },
-  //   {
-  //     id: 4,
-  //     message: "example message 4",
-  //     likes: 10
-  //   }
-  // ];
-
+  
+  const treeParams =useParams()
   const [messages, setMessages] = useState([]);
-  const {nodes,setNodes,onNodesChange,edges,setEdges,onEdgesChange} = TreeGlobalContext()
+  const { nodes, setNodes, onNodesChange, edges, setEdges, onEdgesChange } = TreeGlobalContext()
 
   useEffect(() => {
 
-    const fetchData = async ()=>{
-      const q = query(collection(db,"trees"))
+    const fetchData = async () => {
+      const q = query(collection(db, "trees"))
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         const fetchedMessages = [];
         querySnapshot.forEach((doc) => {
-          if(doc.id === "ajSaWzSv9PPtujH2HLYG"){
+          if (doc.id === String(treeParams.tree)) {
             fetchedMessages.push({ ...doc.data(), id: doc.id });
           }
           // console.log("accessed")
@@ -59,7 +39,7 @@ const TreePage = () => {
         setNodes(fetchedMessages[0].trees.nodes)
         setEdges(fetchedMessages[0].trees.edges)
       });
-      return ()=>unsubscribe();
+      return () => unsubscribe();
     }
 
 

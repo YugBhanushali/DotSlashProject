@@ -748,5 +748,3 @@ export const treeArrays = [
     ],
   },
 ];
-
-localStorage.setItem("trees",JSON.stringify(treeArrays))

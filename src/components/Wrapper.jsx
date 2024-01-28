@@ -22,7 +22,7 @@ const Wrapper = () => {
       pagination={{ clickable: true }}
       scrollbar={{ draggable: true }}
     >
-      <SwiperSlide><Card/></SwiperSlide>
+      <SwiperSlide><a><Card/></a></SwiperSlide>
       <SwiperSlide><Card/></SwiperSlide>
       <SwiperSlide><Card/></SwiperSlide>
       <SwiperSlide><Card/></SwiperSlide>

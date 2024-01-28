@@ -1,7 +1,7 @@
 import React from 'react'
 import Wrapper from './Wrapper'
 
-// Import Swiper styles
+// import Swiper styles
 // import 'swiper/css';
 
 const Slides = () => {

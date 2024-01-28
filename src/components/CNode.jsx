@@ -44,75 +44,68 @@ function CustomNode({ data, isConnectable,id }) {
 
   const closeAddNodeModal = () => {
     setShowAddNodeModal(false);
-    
   };
 
-  const handleAddNode = async(id) => {
+  const handleAddNode = async (parentId) => {
     // Validate the new node data (you can add more sophisticated validation logic)
     if (!title || !content) {
       alert("Please fill in both title and content.");
       return;
     }
-
+  
     // Create a new node with a unique id
+    const newNodeId = `${parentId}-child-${nodes.length + 1}`;
     const newNode = {
-      id: `${id}-child-${nodes.length + 1}`, // You may need a more robust ID generation logic
-      type: "custom", // Assuming the default node type, you can adjust this as needed
-      data: { title: title, content: content, likes: 0 },
-      position: { x: 0, y: 0 }, // Set the initial position as needed
+      id: newNodeId,
+      type: "custom",
+      data: { title, content, likes: 0 },
+      position: { x: 0, y: 0 },
     };
-
+  
     // Update the nodes array with the new node
-    setNodes((prevNodes) => [...prevNodes, newNode]);
-
+  setNodes((prevNodes) => {
+    // Use the callback form to ensure you're working with the latest state
+    return [...prevNodes, newNode];
+  });
     // Optionally, you can connect the new node to the parent node
     const newEdge = {
-      id: `edge-${id}-${newNode.id}`,
-      source: id,
-      target: newNode.id,
-    };
-    setEdges((prevEdges) => [...prevEdges, newEdge]);
+      id: `edge-${parentId}-${newNodeId}`,
+      source: parentId,
+      target: newNodeId,
+    }; // Update the edges array with the new edge
+    setEdges((prevEdges) => {
+      // Use the callback form to ensure you're working with the latest state
+      return [...prevEdges, newEdge];
+    });
+    // add data to firebase
+    try {
+      const { uid, displayName, photoURL } = currUser;
+  
+      const docData = {
+        trees: {
+          title : 'sshreyef',
+          nodes: [...nodes, newNode], // Ensure nodes and edges are at the root level
+          edges: [...edges, newEdge],
+        },
+        name: displayName,
+        avatar: photoURL,
+        createdAt: serverTimestamp(),
+        uid,
+      };
+      console.log("Before Firestore update:", docData);
 
-    //add data to firebase
-    // try{
-    //   const { uid,displayName,photoURL} = currUser;
-    //   // const trees = {
-    //   //   title:'',
-    //   //     nodes:nodes,
-    //   //     edges:edges
-    //   // }
-    //   // console.log(trees);
-    //   // await addDoc(collection(db,"trees"),{
-    //   //   text:trees,
-    //   //   name:displayName,
-    //   //   avatar:photoURL,
-    //   //   createdAt: serverTimestamp(),
-    //   //   uid
-    //   // });
-    //   const docData = {
-    //     trees:{
-    //       title:'',
-    //       nodes:nodes,
-    //       edges:edges
-    //     },
-    //     name:displayName,
-    //     avatar:photoURL,
-    //     createdAt: serverTimestamp(),
-    //     uid
-    //   }
-    //   // await updateDoc(doc(db,"trees","wHdjyqJ6PDdhgWqqalye"),docData)
-    //   // const treeRef = db.collection("trees").doc("wHdjyqJ6PDdhgWqqalye")
-    //   const docRef = doc(db,"trees","ajSaWzSv9PPtujH2HLYG")
-    //   setDoc(docRef,docData)
-    //   .then((docRef)=>{console.log("Entire Document has been updated successfully",docRef)})
-
-    // }catch(error){
-    //   console.log(error);
-    // }
+      // Update the Firestore document
+      await setDoc(doc(db, "trees", "jQcp15ApRLKWcpMrXa9G"), docData);
+  
+      console.log("Entire Document has been updated successfully");
+    } catch (error) {
+       console.error("Firestore update error:", error);
+      console.log("Error details:", error.message, error.code);
+    }
+  
     // Close the modal after adding the new node
     closeAddNodeModal();
   };
-
 
   const IncreaseLike = (id) => {
     // Find the node with the given id and update the likes count
