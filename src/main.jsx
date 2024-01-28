@@ -12,7 +12,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <BrowserRouter>
       {/* <AuthContextProvider> */}
         <TreeContextWrapper>
-          <Navbar />
           <App />
         </TreeContextWrapper>
       {/* </AuthContextProvider> */}

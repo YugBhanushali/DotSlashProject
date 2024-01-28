@@ -5,14 +5,17 @@ import { TreeGlobalContext } from "../context/TreeContext";
 import { useLayoutedElements } from "../Pages/Tree";
 import Modal from 'react-modal';
 
+
+
 const customStyles = {
   content: {
     position: 'absolute',
-    top: '50%',
-    right: 0,
-    transform: 'translateY(-50%)',
+    top: "50%",
+    transform:"translate(-50%,-50%)",
+    left: "50%",
     width: '300px',
     padding: '20px',
+    backgroundColor:"#eee"
   },
 };
 Modal.setAppElement('#root');
@@ -81,12 +84,8 @@ function CustomNode({ data, isConnectable,id }) {
     );
   };
 
-
-
-  
-
   return (
-    <div className="node flex flex-col relative min-w-[250px] h-[250px] max-h-[650px] rounded-xl nodrag border border-[#3a3a3a] shadow-md">
+    <div className="node flex flex-col min-w-[250px] h-[250px] max-h-[650px] rounded-xl nodrag border border-[#3a3a3a] shadow-md">
       <Handle
         type="target"
         position={Position.Left}
@@ -133,24 +132,18 @@ function CustomNode({ data, isConnectable,id }) {
         id="b"
         isConnectable={isConnectable}
       />
+      
       <Modal
       isOpen={showAddNodeModal}
       onRequestClose={closeAddNodeModal}
       style={customStyles}
       contentLabel="Add Node Modal"
+      className='absolute flex flex-col gap-5'
     >
       <h2>Add Node</h2>
-      <label>
-        Title:
-        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-      </label>
-      <br />
-      <label>
-        Content:
-        <input type="text" value={content} onChange={(e) => setContent(e.target.value)}  />
-      </label>
-      <br />
-      <button onClick={()=>handleAddNode(id)}>Add Node</button>
+        <input type="text" className="px-2 py-1 text-[15px]" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+        <input type="text" className="px-2 py-1 text-[15px]" placeholder="Content" value={content} onChange={(e) => setContent(e.target.value)}  />
+      <button onClick={()=>handleAddNode(id)} className="bg-[#ffa45c] px-2 py-1 text-[15px] text-white">Add Node</button>
     </Modal>
     </div>
   );

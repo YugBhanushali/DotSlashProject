@@ -71,6 +71,10 @@ button:focus-visible {
 @tailwind components;
 @tailwind utilities;
 
+*{
+  font-family: 'Poppins', sans-serif;
+}
+
 /* Track */
 ::-webkit-scrollbar-track {
   background: #f1f1f100;
@@ -85,4 +89,20 @@ button:focus-visible {
 ::-webkit-scrollbar {
   width: 6px;
 }
+
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300') */
+
+.nav{
+  border-bottom: white solid 1px;
+}
+
+.slider{
+  border-left: #ED7D31 solid 5px;
+}
+
+body{
+  background-color: #040714;
+  overflow-x: hidden;
+}
+
 

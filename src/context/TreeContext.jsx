@@ -9,6 +9,12 @@ const TreeContext = createContext()
 
 const TreeContextWrapper = ({children}) => {
 
+    const [showAddNodeModal, setShowAddNodeModal] = useState(false);
+    const [title, setTitle] = useState("");
+    const [content,setContent] = useState("");
+
+
+
     const tree = {
         title: "",
         nodes: [
@@ -103,7 +109,8 @@ const TreeContextWrapper = ({children}) => {
     const [edges, setEdges, onEdgesChange] = useEdgesState(tree.edges);
     
   return (
-    <TreeContext.Provider value={{nodes,setNodes,onNodesChange,edges,setEdges,onEdgesChange}}>
+    <TreeContext.Provider value={{nodes,setNodes,onNodesChange,edges,setEdges,onEdgesChange
+    ,showAddNodeModal, setShowAddNodeModal,title,setTitle,content,setContent}}>
         {children}
     </TreeContext.Provider>
   )
