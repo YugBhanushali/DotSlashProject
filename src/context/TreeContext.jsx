@@ -105,8 +105,8 @@ const TreeContextWrapper = ({children}) => {
     // const initialNodes = tree.nodes
     // const initialEdges = tree.edges  
 
-    const [nodes, setNodes, onNodesChange] = useNodesState(tree.nodes);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(tree.edges);
+    const [nodes, setNodes, onNodesChange] = useNodesState([]);
+    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
     
   return (
     <TreeContext.Provider value={{nodes,setNodes,onNodesChange,edges,setEdges,onEdgesChange

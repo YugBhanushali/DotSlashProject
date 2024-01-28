@@ -4,6 +4,9 @@ import { IoIosAddCircleOutline,IoIosHeartEmpty } from "react-icons/io";
 import { TreeGlobalContext } from "../context/TreeContext";
 import { useLayoutedElements } from "../Pages/Tree";
 import Modal from 'react-modal';
+import { addDoc, collection, doc, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
+import { db } from "../firebase";
+import { UserAuth } from "../Context/Authcontext";
 
 
 
@@ -25,7 +28,7 @@ const handleStyle = { left: 10 };
 function CustomNode({ data, isConnectable,id }) {
 
   const {nodes,setNodes,onNodesChange,edges,setEdges,onEdgesChange} = TreeGlobalContext()
-
+  const { currUser, signinWithGoogle} = UserAuth()
   const onChange = useCallback((evt) => {
     console.log(evt.target.value);
   }, []);
@@ -44,7 +47,7 @@ function CustomNode({ data, isConnectable,id }) {
     
   };
 
-  const handleAddNode = (id) => {
+  const handleAddNode = async(id) => {
     // Validate the new node data (you can add more sophisticated validation logic)
     if (!title || !content) {
       alert("Please fill in both title and content.");
@@ -70,6 +73,42 @@ function CustomNode({ data, isConnectable,id }) {
     };
     setEdges((prevEdges) => [...prevEdges, newEdge]);
 
+    //add data to firebase
+    // try{
+    //   const { uid,displayName,photoURL} = currUser;
+    //   // const trees = {
+    //   //   title:'',
+    //   //     nodes:nodes,
+    //   //     edges:edges
+    //   // }
+    //   // console.log(trees);
+    //   // await addDoc(collection(db,"trees"),{
+    //   //   text:trees,
+    //   //   name:displayName,
+    //   //   avatar:photoURL,
+    //   //   createdAt: serverTimestamp(),
+    //   //   uid
+    //   // });
+    //   const docData = {
+    //     trees:{
+    //       title:'',
+    //       nodes:nodes,
+    //       edges:edges
+    //     },
+    //     name:displayName,
+    //     avatar:photoURL,
+    //     createdAt: serverTimestamp(),
+    //     uid
+    //   }
+    //   // await updateDoc(doc(db,"trees","wHdjyqJ6PDdhgWqqalye"),docData)
+    //   // const treeRef = db.collection("trees").doc("wHdjyqJ6PDdhgWqqalye")
+    //   const docRef = doc(db,"trees","ajSaWzSv9PPtujH2HLYG")
+    //   setDoc(docRef,docData)
+    //   .then((docRef)=>{console.log("Entire Document has been updated successfully",docRef)})
+
+    // }catch(error){
+    //   console.log(error);
+    // }
     // Close the modal after adding the new node
     closeAddNodeModal();
   };
