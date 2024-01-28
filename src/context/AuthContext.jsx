@@ -1,52 +1,48 @@
-import { useContext, createContext, useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import {
-  signInWithPopup,
-  signOut,
-  onAuthStateChanged,
-  GoogleAuthProvider,
-} from "firebase/auth";
-import { auth,provider } from "../firebase";
+import { GoogleAuthProvider, onAuthStateChanged, signInWithRedirect, signOut } from "firebase/auth";
+import { createContext, useState, useContext, useEffect } from "react";
+import { auth } from "../firebase";
+
 
 const AuthContext = createContext();
 
-export const AuthContextProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+export const AuthProvider = ({ children }) => {
+    const [currUser, setCurrUser] = useState(null);
+    const [loading , setLoading] = useState(true);
 
-  const googleSignIn = () => {
-    signInWithPopup(auth, provider).then((data)=>{
-      setUser(data.user.email);
-      localStorage.setItem("email",data.user.email);
-      window.location.reload();
-    });
-  };
 
-  const logOut = () => {
-    signOut(auth);
-    localStorage.clear();
-  };
+    // sign in with google 
+    const signinWithGoogle = () => {
+        const provider = new GoogleAuthProvider();
+        signInWithRedirect(auth, provider);
+    }
 
-  useEffect(()=>{
-    setUser(localStorage.getItem("email"));
-  },[])
+    // sign out
 
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-  //     setUser(currentUser);
-  //   });
+    const logout = () => signOut(auth);
 
-  //   return () => unsubscribe();
-  // }, [user]);
+    const value = {
+        currUser,
+        setCurrUser,
+        signinWithGoogle,
+        logout
+    }
 
-  return (
-    <AuthContext.Provider value={{ user, googleSignIn, logOut }}>{children}</AuthContext.Provider>
-  );
-};
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            setCurrUser(user);
+            setLoading(false);
+        })
 
-AuthContextProvider.propTypes = {
-  children: PropTypes.array,
-};
+        return unsubscribe;
+    }, [])
+
+    return (
+        <AuthContext.Provider value={value}>
+            {!loading && children}
+        </AuthContext.Provider>
+    )
+}
 
 export const UserAuth = () => {
-  return useContext(AuthContext);
-};
+    return useContext(AuthContext);
+}
