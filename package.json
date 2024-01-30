@@ -29,6 +29,7 @@
     "react-router-dom": "^6.21.3",
     "react-tree-graph": "^8.0.1",
     "reactflow": "^11.10.3",
+    "rollup": "^4.9.6",
     "swiper": "^11.0.5",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7"

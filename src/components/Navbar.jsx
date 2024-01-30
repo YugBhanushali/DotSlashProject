@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import React,{useEffect, useState} from "react";
+import Login from "./Login";
 
 const Navbar = () => {
 
@@ -15,7 +16,7 @@ const Navbar = () => {
             <input type="text" className="focus:outline-none px-2 text-black" placeholder="Search..."/>
             <button className="bg-[#ED7D31] text-white flex justify-center items-center p-1 px-2 font-bold"><FaSearch/></button>
           </form>
-          <a href="#">Login</a>
+          <Login />
           <a href="#">SignUp</a>
         </div>
       </div>

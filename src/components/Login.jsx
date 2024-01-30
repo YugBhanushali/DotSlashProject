@@ -29,7 +29,7 @@ const Login = () => {
 
     return (
         <>
-            <button onClick={handleLogin}>Login with google</button>
+            <button onClick={handleLogin}>Login</button>
         </>
     )
 }
